@@ -1,0 +1,171 @@
+<div class="data-grid">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <ng-template #defaultDataGridHeader>
+                    <tr>
+                        <ng-container [ngTemplateOutlet]="dataGridHeaderContentStart || defaultDataGridHeaderContentStart">
+                        </ng-container>
+                        <ng-container [ngTemplateOutlet]="dataGridHeaderContent || defaultDataGridHeaderContent">
+                        </ng-container>
+                        <ng-container [ngTemplateOutlet]="dataGridHeaderContentEnd || defaultDataGridHeaderContentEnd">
+                        </ng-container>
+                    </tr>
+                </ng-template>
+                <ng-template #defaultDataGridHeaderContentStart>
+                    <th style="width: 35px" *ngIf="checkbox?.show">
+                        <label class="dg-checkbox-container">
+                <input type="checkbox" [disabled]="rows$?.value?.length === 0"
+                  [checked]="checkbox?.selected | dgCheckSelected: rows$.value:'all'" (change)="
+                    checkbox?.onChangeAll
+                      ? checkbox?.onChangeAll($event.target['checked'], rows$.value)
+                      : true
+                  " />
+                <span class="dg-checkmark"></span>
+              </label>
+                    </th>
+                    <th class="non-word-break fit-content">
+                        STT
+                    </th>
+                </ng-template>
+                <ng-template #defaultDataGridHeaderContent>
+                    <th *ngFor="let column of columns" [style]="(column.style || '') + (column.headerStyle || '')">
+                        {{ column.name | translate }}
+                    </th>
+                </ng-template>
+                <ng-template #defaultDataGridHeaderContentEnd>
+                    <th manipulationColumn [number]="manipulation?.buttons?.length" *ngIf="manipulation?.show">
+                        {{ manipulation?.label || 'Thao tác' }}
+                    </th>
+                </ng-template>
+                <ng-container [ngTemplateOutlet]="dataGridHeader || defaultDataGridHeader"></ng-container>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="rows$.value && rows$.value.length > 0; else emptyData">
+                    <ng-container [ngTemplateOutlet]="dataGridDataHeader"></ng-container>
+                    <tr *ngFor="let row of rows$ | async">
+                        <ng-template #defaultDataGridRow>
+                            <ng-container [ngTemplateOutlet]="dataGridRowContentStart || defaultDataGridRowContentStart" [ngTemplateOutletContext]="{ $implicit: row.data, index: row.index }">
+                            </ng-container>
+                            <ng-container [ngTemplateOutlet]="dataGridRowContent || defaultRowContent" [ngTemplateOutletContext]="{ $implicit: row.data, index: row.index }">
+                            </ng-container>
+                            <ng-container [ngTemplateOutlet]="dataGridRowContentEnd || defaultDataGridRowContentEnd" [ngTemplateOutletContext]="{ $implicit: row.data, index: row.index }">
+                            </ng-container>
+                        </ng-template>
+                        <ng-container [ngTemplateOutlet]="dataGridRow || defaultDataGridRow" [ngTemplateOutletContext]="{ $implicit: row.data, index: row.index }">
+                        </ng-container>
+                    </tr>
+                    <ng-container [ngTemplateOutlet]="dataGridDataFooter"></ng-container>
+                </ng-container>
+                <ng-template #emptyData>
+                    <tr>
+                        <td style="text-align: center;" [attr.colspan]="
+                  (checkbox && checkbox.show ? 1 : 0) +
+                  (manipulation && manipulation.show ? 1 : 0) +
+                  1 +
+                  (columns?.length || totalColumn || 0)
+                ">
+                            Không có bản ghi
+                        </td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </table>
+        <!-- PAGE -->
+        <div class="data-grid-page d-flex justify-content-between bd-highlight" *ngIf="page?.show && rows$.value?.length > 0">
+            <div class="p-2 bd-highlight" style="padding-left: 0px !important;">
+                <div class="font-text" style="color:#3b4850">
+                    <div>
+                        <span class="color-text" translate>Tìm thấy </span>
+                        <span class="color-text">{{ page?.totalRecord }}</span>
+                        <span class="color-text">, </span>
+                        <span class="color-text" translate> hiển thị từ </span>
+                        <span class="color-text">{{ page?.startIndex + 1 }}</span>
+                        <span class="color-text">-</span>
+                        <span class="color-text">{{ page?.endIndex + 1 }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2 bd-highlight" style="padding-right: 0px !important;">
+                <nav>
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item" [class]="page?.currentPage === 1 ? 'disabled' : ''" (click)="page?.goToFirstPage()">
+                            <a class="page-link text-secondary">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item" [class]="page?.currentPage === 1 ? 'disabled' : ''" (click)="page?.previousPage()">
+                            <a class="page-link text-secondary">
+                                <span aria-hidden="true">&lsaquo;</span>
+                            </a>
+                        </li>
+                        <ng-container *ngFor="let pageNumber of page?.visiblePages">
+                            <li class="page-item" (click)="page?.goToPage(pageNumber)">
+                                <a class="page-link text-secondary" [ngClass]="pageNumber === page.currentPage ? 'current-page' : ''">{{
+                    pageNumber }}</a>
+                            </li>
+                        </ng-container>
+                        <li class="page-item" [class]="page?.currentPage === page?.totalPage ? 'disabled' : ''" (click)="page?.nextPage()">
+                            <a class="page-link text-secondary">
+                                <span aria-hidden="true">&rsaquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item" [class]="page?.currentPage === page?.totalPage ? 'disabled' : ''" (click)="page?.goToLastPage()">
+                            <a class="page-link text-secondary">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ROW TEMPLATE -->
+<ng-template #defaultDataGridRowContentStart let-row let-index="index">
+    <td *ngIf="checkbox?.show" class="non-word-break">
+        <label class="dg-checkbox-container" *ngIf="!(checkbox?.hideWhen ? checkbox?.hideWhen(row) === true : false)">
+        <input type="checkbox" [disabled]="checkbox?.disableWhen ? checkbox?.disableWhen(row) === true : false"
+          [checked]="checkbox?.selected | dgCheckSelected: row:'one'" (change)="
+            checkbox?.onChange
+              ? checkbox?.onChange($event.target['checked'], row, rows$.value)
+              : false
+          " />
+        <span class="dg-checkmark"></span>
+      </label>
+    </td>
+    <td dgIndex class="text-center fit-content">{{ index + 1 }}</td>
+</ng-template>
+<ng-template #defaultRowContent let-row let-index="index">
+    <td *ngFor="let column of columns">
+        <div class="wrap-line" [title]="row[column.prop]">
+            {{ row[column.prop] }}
+        </div>
+    </td>
+</ng-template>
+<ng-template #defaultDataGridRowContentEnd let-row let-index="index">
+    <td *ngIf="manipulation?.show">
+        <div fxLayout="row" fxLayoutAlign="space-evenly center" class="manipulation">
+            <ng-container *ngFor="let button of manipulation?.buttons; last as isLast">
+                <div fxFlex="25px" [ngClass]="{
+              hidden: button?.hide || (button?.hideWhen ? button.hideWhen(row) === true : false)
+            }" [style]="!isLast ? 'margin-right: 3px;' : ''" *ngIf="
+              !(
+                button?.invisible ||
+                (button?.invisibleWhen ? button.invisibleWhen(row) === true : false)
+              )
+            ">
+                    <span mat-raised-button matTooltipClass="example-tooltip-red" class="example-button" [matTooltip]="button?.tooltip ? button.tooltip : null">
+              <button type="button" class="btn" (click)="button.onClick ? button.onClick(row, index) : true"
+                [style]="button?.style" [disabled]="
+                  button?.disable ||
+                  (button?.disableWhen ? button.disableWhen(row) === true : false)
+                ">
+                <mat-icon [svgIcon]="button.icon"></mat-icon>
+              </button>
+            </span>
+                </div>
+            </ng-container>
+        </div>
+    </td>
+</ng-template>

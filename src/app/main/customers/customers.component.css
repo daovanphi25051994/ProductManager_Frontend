@@ -1,0 +1,111 @@
+
+.dashboard-title {
+    font-size: 16px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.5rem;
+    letter-spacing: 0.005em;
+    text-align: left;
+}
+
+.font-text-lable {
+    color: #3b4850;
+    font-size: 14px !important;
+    font-style: normal;
+    padding-top: calc(.375rem + 1px);
+    padding-bottom: calc(.375rem + 1px);
+    margin-bottom: 0;
+    font-size: inherit;
+    line-height: 1.5;
+}
+
+.function-icon {
+    height: 14px;
+    width: 14px;
+  }
+
+  .function-icon:hover {
+    color: #0090f0;
+  }
+  .title-form-input {
+    height: 24px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 0.005em;
+    color: #3b4850;
+  }
+  ::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #c8c8c8;
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #c8c8c8;
+  }
+  
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #c8c8c8;
+  }
+  .col-form-label {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .font-text {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: 0.005em;
+    font-feature-settings: 'case' on;
+    color: #3b4850;
+  }
+  .style-button {
+    height: 44px;
+    background-color: #1790c9;
+    border-radius: 7px;
+    position: relative;
+    margin: 5px;
+  }
+  .icon-form-search {
+    position: absolute;
+  }
+  .icon-add {
+    position: absolute;
+    height: 22px !important;
+  }
+  .text-button-from {
+    color: #ffffff;
+    margin-left: 30px;
+    margin-right: 20px;
+  }
+  .line-button {
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+  .form-group {
+    margin-bottom: 0px;
+  }
+  .under-line {
+    display: flex;
+  }
+  
+  .underline-share {
+    background: #dee2e6;
+    border-radius: 0px;
+    height: 2px;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .bold-text {
+    font-weight: 700;
+  }
+  
+  .menu-tree-table td {
+    height: 48px;
+  }
+  
+  

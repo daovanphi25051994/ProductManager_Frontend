@@ -1,1 +1,70 @@
-<p>customers works!</p>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-12">
+        <div class="card">
+            <div class="card-body pb-50">
+                <div id="basic-table" class=" row">
+                    <div class="col-md-6 ">
+                        <span class="dashboard-title"></span>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-primary btn-center" rippleEffect (click)="addCustomer()">
+                            <mat-icon style="height: 16px !important;" svgIcon="ic_btn_health_index" class="icon-form-search"></mat-icon>
+                            <span class="text-button-from font-text-btn"> Thêm mới </span>
+                        </button>
+
+                    </div>
+                    <div class="col-12">
+                        <span class="dashboard-title">Danh sách khách hàng</span>
+                        <span class="dashboard-title"> ({{ resultRows?.length}})</span>
+                     <app-base-table
+                        #resourceGrid
+                        [rows]="resultRows"
+                        [manipulation]="manipulation"
+                        class="menu-tree-table"
+                        >
+                        <ng-template #dataGridHeader>
+                            <tr>
+                                <th rowspan="1" style="text-align: center;  min-width: 55px;">STT</th>
+                                <th rowspan="1" style="text-align: center;">Họ và tên</th>
+                                <th rowspan="1" style="text-align: center;  min-width: 140px">Số điện thoại</th>
+                                <th rowspan="1" style="text-align: center; min-width: 165px">Địa chỉ </th>
+                                <th rowspan="1" style="text-align: center; min-width: 80px">Trạng thái</th>
+                                <th manipulationColumn [number]="3" style="text-align: center;">Thao tác</th>
+                            </tr>
+                        </ng-template>
+                            <ng-template #dataGridRowContent let-row let-index="index">
+                                <td>
+                                <div
+                                    class="wrap-line"
+                                    style="min-width: 120px; max-width: 120px;"
+                                    [title]="row.fullname"
+                                >
+                                    {{ row.fullname }}               </div>
+                                </td>
+                                <td style="min-width: 220px; max-width: 220px;">
+                                <div
+                                    [title]="row.phone"
+                                    class="wrap-line"
+                                >
+                                    {{ row.phone }}
+                                </div>
+                                </td>
+                                <td style="min-width: 300px; max-width: 300px;">
+                                <div class="wrap-line" [title]="row.address">
+                                    {{ row.address }}
+                                </div>
+                                </td>
+                                <td style="text-align: center; line-height: 0; min-width: 80px;">
+                                <mat-icon
+                                    *ngIf="row.isActive === undefined || row.isActive === null || row.isActive === true"
+                                    svgIcon="ic_stt_da_duyet"
+                                ></mat-icon>
+                                </td>
+                            </ng-template>
+                        </app-base-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

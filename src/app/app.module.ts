@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-
+import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 
@@ -17,6 +17,7 @@ import { SalesInformationComponent } from './main/sales-information/sales-inform
 import { OrdersComponent } from './main/orders/orders.component';
 import { ProductsComponent } from './main/products/products.component';
 import { CustomersComponent } from './main/customers/customers.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   imports: [
@@ -29,7 +30,9 @@ import { CustomersComponent } from './main/customers/customers.component';
     AppRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
-    })
+    }),
+    MatIconModule,
+    SharedModule
   ],
   declarations: [
     AppComponent,
