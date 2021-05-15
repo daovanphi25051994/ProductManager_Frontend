@@ -71,6 +71,7 @@
 
   // override BS and keep the border-color normal/grey so that overlaid focus animation draws attention
   .form-control {
+    border-radius: 3px;
     // underline animation color on focus
     $underline-background-image: linear-gradient(
         to top,
@@ -113,19 +114,15 @@
     // bg image is always there, we just need to reveal it
     &,
     .is-focused & {
-      background-image: $underline-background-image;
     }
 
     &:invalid {
-      background-image: $underline-background-image-invalid;
     }
 
     &:read-only {
-      background-image: $underline-background-image-readonly;
     }
 
     @include bmd-disabled() {
-      background-image: $underline-background-image-disabled;
       background-repeat: repeat-x;
       background-size: 3px 1px;
     }
@@ -134,19 +131,16 @@
     &.form-control-success {
       &,
       .is-focused & {
-        background-image: $underline-background-image, $form-icon-success;
       }
     }
     &.form-control-warning {
       &,
       .is-focused & {
-        background-image: $underline-background-image, $form-icon-warning;
       }
     }
     &.form-control-danger {
       &,
       .is-focused & {
-        background-image: $underline-background-image, $form-icon-danger;
       }
     }
   }
@@ -170,6 +164,7 @@
     // Set the border and box shadow on specific inputs to match
     .form-control {
       border-color: $border-color;
+      border-radius: 3px;
     }
 
     // Set validation states also for addons

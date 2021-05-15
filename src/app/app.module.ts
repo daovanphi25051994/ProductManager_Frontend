@@ -9,15 +9,20 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 
 import { AppComponent } from './app.component';
-import {
-  AgmCoreModule
-} from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { SalesInformationComponent } from './main/sales-information/sales-information.component';
 import { OrdersComponent } from './main/orders/orders.component';
 import { ProductsComponent } from './main/products/products.component';
 import { CustomersComponent } from './main/customers/customers.component';
 import { SharedModule } from './shared/shared.module';
+import { ToastrModule } from 'ngx-toastr';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
+import { CreateCustomerComponent } from './main/customers/them-moi/them-moi.component';
+import { CreateProductComponent } from './main/products/them-moi/them-moi.component';
+import { CreateOrderComponent } from './main/orders/create-order/create-order.component';
 
 @NgModule({
   imports: [
@@ -28,11 +33,13 @@ import { SharedModule } from './shared/shared.module';
     ComponentsModule,
     RouterModule,
     AppRoutingModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
-    }),
     MatIconModule,
-    SharedModule
+    SharedModule,
+    ToastrModule,
+    MatDialogModule,
+    MatInputModule,
+    MatButtonModule,
+    MatRadioModule
   ],
   declarations: [
     AppComponent,
@@ -41,9 +48,17 @@ import { SharedModule } from './shared/shared.module';
     OrdersComponent,
     ProductsComponent,
     CustomersComponent,
+    CreateCustomerComponent,
+    CreateProductComponent,
+    CreateOrderComponent
 
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MAT_RADIO_DEFAULT_OPTIONS,
+      useValue: { color: 'warn' },
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,83 @@
+<div [formGroup]="customerForm" style="padding: 20px;">
+    <div style="position: sticky; top: 0px; margin-bottom: 10px; z-index: 9999;">
+        <div class="title-dialog bg-success" >
+            <p *ngIf="(data.id === null)" class="font-text-title" >Thêm hóa đơn</p>
+            <p *ngIf="data.id" class="font-text-title">Sửa hóa đơn</p>
+            <button class="btn " class="button-close " (click)="onDismiss()">
+            <mat-icon svgIcon="ic_closePeople" class="btn-icon-close" id="icon-form-close"></mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group" style="margin-bottom: 0px !important;">
+                <label class="title-content">Họ và tên</label><span style="color: red;"> *</span>
+                <input
+                maxLength="50"
+                  type="text"
+                  class="form-control"
+                  formControlName="fullname"
+                />
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group" style="margin-bottom: 0px !important;">
+                <label class="title-content">Số điện thoại</label><span style="color: red;"> *</span>
+                <input
+                maxLength="50"
+                  type="text"
+                  class="form-control"
+                  formControlName="phone"
+                />
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group" style="margin-bottom: 0px !important;">
+                <label class="title-content">Địa chỉ</label>
+                <input
+                maxLength="255"
+                  type="text"
+                  class="form-control"
+                  formControlName="address"
+                />
+            </div>
+        </div>
+        <div class="col-xl-12" style="margin-bottom: 0px !important;">
+            <label class="title-content" style="margin-bottom: 5px;">Trạng thái</label>
+            <div class="form-group">
+                <mat-radio-group aria-label="Select an option" formControlName="isActive">
+                    <mat-radio-button style="color: #3b4850;" [value]="true">Hoạt động</mat-radio-button>
+                    <mat-radio-button style="margin-left: 30px; color: #3b4850;" [value]="false">Tạm ngưng</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+    </div>
+
+    <div style="width: 100%;">
+        <div class="border-bottom-length"></div>
+        <div class="btn-container">
+            <span *ngIf="!customerForm.value.id">
+            <input
+                (click)="onCheck()"
+                type="checkbox"
+                class="checkbox-add-next"
+                id="add-next"
+            />
+            <label class="title-content" for="add-next" class="label-add-next">
+                Thêm tiếp
+            </label>
+            </span>
+            <button class="btn btn-success btn-center" style="    margin-right: 15px;" rippleEffect (click)="submitForm()">
+                <mat-icon style="height: 16px !important;" svgIcon="ic_save" class="icon-form-search"></mat-icon>
+                <span class="text-button-from font-text-btn"> Lưu </span>
+            </button>
+            <button class="btn btn-success btn-center" rippleEffect (click)="onDismiss()">
+                <mat-icon style="height: 16px !important;" svgIcon="ic_close" class="icon-form-search"></mat-icon>
+                <span class="text-button-from font-text-btn"> Đóng </span>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+

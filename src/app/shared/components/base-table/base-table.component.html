@@ -30,7 +30,7 @@
                 </ng-template>
                 <ng-template #defaultDataGridHeaderContent>
                     <th *ngFor="let column of columns" [style]="(column.style || '') + (column.headerStyle || '')">
-                        {{ column.name | translate }}
+                        {{ column.name }}
                     </th>
                 </ng-template>
                 <ng-template #defaultDataGridHeaderContentEnd>
@@ -76,10 +76,10 @@
             <div class="p-2 bd-highlight" style="padding-left: 0px !important;">
                 <div class="font-text" style="color:#3b4850">
                     <div>
-                        <span class="color-text" translate>Tìm thấy </span>
+                        <span class="color-text">Tìm thấy </span>
                         <span class="color-text">{{ page?.totalRecord }}</span>
                         <span class="color-text">, </span>
-                        <span class="color-text" translate> hiển thị từ </span>
+                        <span class="color-text"> hiển thị từ </span>
                         <span class="color-text">{{ page?.startIndex + 1 }}</span>
                         <span class="color-text">-</span>
                         <span class="color-text">{{ page?.endIndex + 1 }}</span>

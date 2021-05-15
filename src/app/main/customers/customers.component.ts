@@ -1,9 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { CreateCustomerComponent } from './them-moi/them-moi.component';
+import { CustomersService } from './customers.service';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Customer } from 'app/core/models/customer';
 import { DataGrid, IDataGridColumn, IDataGridManipulation } from 'app/shared/components/base-table/model';
 import { DataGridPage } from 'app/shared/components/base-table/model/dataGridPageImpl';
+import { MatDialog } from '@angular/material/dialog';
 
 const fakeDate: Customer[] = [
   {
@@ -26,117 +29,107 @@ const fakeDate: Customer[] = [
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.css']
 })
-export class CustomersComponent implements OnInit {
-
-  @ViewChild('danhSachMenu') grid: DataGrid;
-  columns: IDataGridColumn[] = [
-    {
-      name: 'Mã Menu/API',
-      prop: 'code',
-    },
-    {
-      name: 'Tên Menu/API',
-      prop: 'name',
-    },
-    {
-      name: 'Đường dẫn',
-      prop: 'path',
-    },
-    {
-      name: 'Trạng thái',
-      prop: 'isActive',
-      style: 'width: 110px',
-    },
-  ];
+export class CustomersComponent implements OnInit, AfterViewInit {
+  @ViewChild('resourceGrid') resourceGrid: DataGrid;
   @ViewChild('searchForm') searchFormRef: ElementRef;
   resultRows: Customer[] = fakeDate;
 
-  // search
-  menuNameSearchInput = '';
-  isActiveSearchInput: boolean | number = 0;
-
-
-
-  pageMenu = new DataGridPage(20, 1);
+  pageCustomer = new DataGridPage(20, 1);
   searchForm: FormGroup;
   manipulation: IDataGridManipulation = {
     show: true,
     buttons: [
       {
-        tooltip: 'Phân quyền menu',
-        icon: 'ic_settings',
-        onClick: (row: any) => {
-          // this.openDecentralizationMenu(row);
+        tooltip: 'Chi tiết',
+        icon: 'ic_btn_view_table',
+        onClick: (row: any, index: any) => {
+          this.detail( row);
         },
-        // invisible: !this.actionService.hasPermission(menuManagementActions[3].code)
       },
       {
         tooltip: 'Cập nhật',
         icon: 'ic_btn_edit_table',
-        onClick: (row: any) => {
-          // this.openPopupEditMenu(row);
+        onClick: (row: any, index: any) => {
+          // this.updateTeam(row.id);
         },
-        // invisible: !this.actionService.hasPermission(menuManagementActions[2].code)
+        // invisibleWhen: (row: any) => {
+        //   if (row.status === 0) {
+        //     return true;
+        //   } else {
+        //     return false;
+        //   }
+        // }
       },
       {
         tooltip: 'Xóa',
         icon: 'ic_btn_delete_table',
         style: 'background-color: #dd3030;',
-        onClick: (row: any) => {
-          // this.openDeleteConfirm(row);
+        onClick: (row: any, index: any) => {
+          // this.deleteTeam(row);
         },
-        // invisible: !this.actionService.hasPermission(menuManagementActions[4].code)
+        // invisibleWhen: (row: any) => {
+        //   if (row.status === 0) {
+        //     return true;
+        //   } else {
+        //     return false;
+        //   }
+        // }
       },
     ],
   };
 
-
   resourceGridApi = (page, size) => {
     const conditions = this.searchForm.value;
+    console.log('conditions', conditions);
     conditions.page = page;
     conditions.size = size;
-    return this.getAllCustomer();
+    return this.customerService.search(conditions);
   }
 
   constructor( private fb: FormBuilder ,
     // public notificationService: NotificationService,
     public router: Router,
+    private customerService: CustomersService,
+    public dialog: MatDialog,
     ) { }
 
   ngOnInit(): void {
-    // this.searchForm = this.fb.group({
-    //   name: [null],
-    // });(
-    this.getAllCustomer();
+    this.searchForm = this.fb.group({
+      fullname: [null],
+      phone: [null],
+    });
   }
   ngAfterViewInit() {
-    // this.submitFormSearch();
+    this.submitFormSearch();
   }
-  // submitFormSearch() {
-  //   this.resourceGrid.update();
-  // }
-
-  onClickSearch() {
-    this.getAllCustomer();
-  }
-
-  getAllCustomer(): void {
-    // this.resultRows = fakeDate;
-    // this.sysMenuService.findAll().subscribe(
-    //   res => {
-    //     if (res && res.data !== undefined && res.data !== null) {
-    //       const menus: Menu[] = res.data;
-    //       this.generateTableData(menus);
-    //     }
-    //   },
-    //   () => {
-    //     this.notificationService.showError('Không thể load được danh sách menu', 'Quản lý menu');
-    //   }
-    // );
+  submitFormSearch() {
+    this.resourceGrid.update();
   }
 
   addCustomer(): void {
-    console.log('add customer');
+    const dialogRef = this.dialog.open(CreateCustomerComponent, {
+      width: '50%',
+      height: '500px',
+      panelClass: 'dialog-family',
+      data: { id: null },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+      }
+    });
   }
-
+  detail(data: any): void {
+    // const dialogRef = this.dialog.open(ThemMoiComponent, {
+    //   width: '50%',
+    //   height: '500px',
+    //   panelClass: 'dialog-family',
+    //   data: { data: data },
+    // });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result) {
+    //     console.log(result);
+    //   }
+    // });
+  }
 }

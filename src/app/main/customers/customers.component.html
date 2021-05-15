@@ -2,25 +2,58 @@
     <div class="col-lg-12 col-md-12 col-12">
         <div class="card">
             <div class="card-body pb-50">
+                <div>
+                    <span class="dashboard-title">Thông tin tìm kiếm </span>
+                </div>
+                <div (keyup.enter)="submitFormSearch()">
+                    <form [formGroup]="searchForm">
+                        <div class="form-group row" style="margin-top: 0px !important">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-text-lable font-text ">Họ và tên</label>
+                                    <input type="text" formControlName="fullname" class="form-control" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-text-lable font-text ">Số điện thoại</label>
+                                    <input type="text" formControlName="phone" class="form-control" maxlength="255">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button style="margin-left: 10px" class="btn btn-success btn-center " rippleEffect (click)="submitFormSearch()">
+                        <mat-icon style="height: 16px !important;" svgIcon="ic_search_general" class="icon-form-search"></mat-icon>
+                        <span class="text-button-from font-text-btn" >Tìm kiếm</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-12">
+        <div class="card">
+            <div class="card-body pb-50">
                 <div id="basic-table" class=" row">
                     <div class="col-md-6 ">
-                        <span class="dashboard-title"></span>
+                        <span class="dashboard-title">Danh sách khách hàng</span>
+                        <span class="dashboard-title"> ({{ resultRows?.length}})</span>
                     </div>
                     <div class="col-md-6 text-right">
-                        <button class="btn btn-primary btn-center" rippleEffect (click)="addCustomer()">
+                        <button class="btn btn-success btn-center" rippleEffect (click)="addCustomer()">
                             <mat-icon style="height: 16px !important;" svgIcon="ic_btn_health_index" class="icon-form-search"></mat-icon>
                             <span class="text-button-from font-text-btn"> Thêm mới </span>
                         </button>
-
                     </div>
                     <div class="col-12">
-                        <span class="dashboard-title">Danh sách khách hàng</span>
-                        <span class="dashboard-title"> ({{ resultRows?.length}})</span>
                      <app-base-table
-                        #resourceGrid
-                        [rows]="resultRows"
-                        [manipulation]="manipulation"
-                        class="menu-tree-table"
+                     #resourceGrid [serverSideApi]="resourceGridApi" type="server-side"
+                      [manipulation]="manipulation" 
+                     [page]="pageCustomer" [totalColumn]="6"
                         >
                         <ng-template #dataGridHeader>
                             <tr>
@@ -39,7 +72,8 @@
                                     style="min-width: 120px; max-width: 120px;"
                                     [title]="row.fullname"
                                 >
-                                    {{ row.fullname }}               </div>
+                                    {{ row.fullname }}               
+                                </div>
                                 </td>
                                 <td style="min-width: 220px; max-width: 220px;">
                                 <div

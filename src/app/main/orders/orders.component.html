@@ -1,1 +1,126 @@
-<p>orders works!</p>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-12">
+        <div class="card">
+            <div class="card-body pb-50">
+                <div>
+                    <span class="dashboard-title">Thông tin tìm kiếm </span>
+                </div>
+                <div (keyup.enter)="submitFormSearch()">
+                    <form [formGroup]="searchForm">
+                        <div class="form-group row" style="margin-top: 0px !important">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-text-lable font-text ">Tên khách hàng</label>
+                                    <input type="text" formControlName="fullname" class="form-control" maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-text-lable font-text ">Ngày bán</label>
+                                    <input type="text" formControlName="phone" class="form-control" maxlength="255">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button style="margin-left: 10px" class="btn btn-success btn-center " rippleEffect (click)="submitFormSearch()">
+                        <mat-icon style="height: 16px !important;" svgIcon="ic_search_general" class="icon-form-search"></mat-icon>
+                        <span class="text-button-from font-text-btn" >Tìm kiếm</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-12">
+        <div class="card">
+            <div class="card-body pb-50">
+                <div id="basic-table" class=" row">
+                    <div class="col-md-6 ">
+                        <span class="dashboard-title">Danh sách hóa đơn</span>
+                        <span class="dashboard-title"> ({{ resultRows?.length}})</span>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-success btn-center" rippleEffect (click)="addCustomer()">
+                            <mat-icon style="height: 16px !important;" svgIcon="ic_btn_health_index" class="icon-form-search"></mat-icon>
+                            <span class="text-button-from font-text-btn"> Thêm mới </span>
+                        </button>
+                    </div>
+                    <div class="col-12">
+                     <app-base-table
+                     #resourceGrid [serverSideApi]="resourceGridApi" type="server-side"
+                      [manipulation]="manipulation" 
+                     [page]="pageCustomer" [totalColumn]="9"
+                        >
+                        <ng-template #dataGridHeader>
+                            <tr>
+                                <th rowspan="1" style="text-align: center;  min-width: 55px;">STT</th>
+                                <th rowspan="1" style="text-align: center;">Mã hóa đơn</th>
+                                <th rowspan="1" style="text-align: center;">Người mua</th>
+                                <th rowspan="1" style="text-align: center;  min-width: 140px">Số điện thoại</th>
+                                <th rowspan="1" style="text-align: center; min-width: 165px">Địa chỉ </th>
+                                <th rowspan="1" style="text-align: center; min-width: 165px">Tổng tiền </th>
+                                <th rowspan="1" style="text-align: center; min-width: 165px">Đã thanh toán </th>
+                                <th rowspan="1" style="text-align: center; min-width: 80px">Trạng thái</th>
+                                <th manipulationColumn [number]="3" style="text-align: center;">Thao tác</th>
+                            </tr>
+                        </ng-template>
+                            <ng-template #dataGridRowContent let-row let-index="index">
+                                <td>
+                                <div
+                                    class="wrap-line"
+                                    style="min-width: 120px; max-width: 120px;"
+                                    [title]="row.orderId"
+                                >
+                                    {{ row.orderId }}               
+                                </div>
+                                </td>
+                                <td>
+                                    <div
+                                        class="wrap-line"
+                                        style="min-width: 120px; max-width: 120px;"
+                                        [title]="row.fullname"
+                                    >
+                                        {{ row.fullname }}               
+                                    </div>
+                                    </td>
+                                <td style="min-width: 220px; max-width: 220px;">
+                                <div
+                                    [title]="row.phone"
+                                    class="wrap-line"
+                                >
+                                    {{ row.phone }}
+                                </div>
+                                </td>
+                                <td style="min-width: 300px; max-width: 300px;">
+                                <div class="wrap-line" [title]="row.address">
+                                    {{ row.address }}
+                                </div>
+                                </td>
+                                <td style="min-width: 300px; max-width: 300px;">
+                                    <div class="wrap-line" [title]="row.totalMoney">
+                                        {{ row.totalMoney }}
+                                    </div>
+                                    </td>
+                                    <td style="min-width: 300px; max-width: 300px;">
+                                        <div class="wrap-line" [title]="row.paid">
+                                            {{ row.paid }}
+                                        </div>
+                                        </td>
+                                <td style="text-align: center; line-height: 0; min-width: 80px;">
+                                <mat-icon
+                                    *ngIf="row.isActive === undefined || row.isActive === null || row.isActive === true"
+                                    svgIcon="ic_stt_da_duyet"
+                                ></mat-icon>
+                                </td>
+                            </ng-template>
+                        </app-base-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

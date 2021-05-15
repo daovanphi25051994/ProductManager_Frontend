@@ -1,3 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+
+.dialog-family {
+    display: flex;
+  }
+  
+  .dialog-family .mat-dialog-container {
+    padding: 0 !important;
+    overflow-x: hidden;
+  }
+
+  .form-control {
+      border-radius: 3px;
+      padding: 0 5px;
+    height: 36px;
+  }
+
+.table-bordered {
+  border: 1px solid #e7ecf1 !important;
+}
+
+table thead {
+  background-color: #eeeeee !important;
+}
+
+.table > thead > tr > th {
+  border-bottom-width: 2px !important;
+  font-weight: 600 !important;
+}
